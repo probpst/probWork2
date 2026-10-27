@@ -38,7 +38,7 @@ def export(p, folder, formats=('iges', 'stl'), units='m', level=3, stl_binary=Tr
             if not rep['iges_check'].get('closed'):
                 rep['warnings'].append('IGES read-back: %s free edges' % rep['iges_check'].get('free_edges'))
         if 'stl' in formats:
-            m = cad.tessellate(solid, LEVELS[level] * L)
+            m = cad.tessellate(solid, LEVELS[level] * L).repaired(0.5 * LEVELS[level] * L)
             if units == 'mm':
                 m.V = m.V * 1000.0
             path = os.path.join(folder, base + '.stl')

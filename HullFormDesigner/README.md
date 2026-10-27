@@ -66,7 +66,14 @@ the Cb/LCB targets are then corrected so that the **complete** hull meets them. 
 
 ## Presets fitted to the supplied hulls
 
-PRESET_TABLE
+| Preset | Type | Lpp × B × T [m] | Cb ref / gen | LCB % ref / gen | Cm ref / gen | Cwp ref / gen | Body-plan RMS |
+|---|---|---|---|---|---|---|---|
+| KCS | Container ship: fine form, bulbous bow, transom, single skeg (KCS type) | 230.0 × 32.20 × 10.80 | 0.6501 / 0.6501 | -1.49 / -1.49 | 0.9840 / 0.9839 | 0.8305 / 0.8303 | 2.7 % |
+| DTC | Ultra-large container ship: raised bulb, transom, single skeg (DTC type) | 355.0 × 51.00 × 14.50 | 0.6605 / 0.6605 | -2.64 / -2.64 | 0.9870 / 0.9867 | 0.8459 / 0.8455 | 2.4 % |
+| KVLCC2 | VLCC tanker: full form, bulbous bow, single skeg (KVLCC2 type) | 320.0 × 58.00 × 20.80 | 0.8095 / 0.8097 | +3.51 / +3.52 | 0.9971 / 0.9981 | 0.9009 / 0.9007 | 5.4 % |
+| JBC | Bulk carrier: full form, bulbous bow, single skeg (JBC type) | 280.0 × 45.00 × 16.50 | 0.8575 / 0.8576 | +2.54 / +2.55 | 0.9981 / 0.9978 | 0.9244 / 0.9240 | 1.7 % |
+| KLNG2 | LNG carrier: twin skeg, bulbous bow (KLNG2 type) | 286.0 × 46.20 × 11.50 | 0.7500 / 0.7500 | -0.49 / -0.50 | 0.9868 / 0.9878 | 0.8613 / 0.8609 | 5.1 % |
+| DTMB5415 | Naval combatant: sonar dome, transom, open shafts (DTMB 5415 type) | 142.0 × 19.06 × 6.15 | 0.4994 / 0.4994 | -1.06 / -1.06 | 0.8171 / 0.8166 | 0.7623 / 0.7619 | 2.1 % |
 
 Body-plan RMS = RMS of the half-breadth difference below 1.05 T over the whole length, in % of B/2
 (propellers/rudders in the reference files masked). Comparison plots: `docs/compare_*.png`.

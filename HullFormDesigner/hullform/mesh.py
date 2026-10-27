@@ -43,6 +43,29 @@ class TriMesh(object):
         return dict(open_edges=int((cnt == 1).sum()), nonmanifold_edges=int((cnt > 2).sum()),
                     triangles=len(m.F))
 
+    def repaired(self, max_len):
+        """Collapse non-manifold edges shorter than max_len (pinch points of a Boolean result).
+        Returns the repaired mesh if it is closed and manifold, else self."""
+        m = self.welded()
+        for _ in range(10):
+            E = np.sort(np.r_[m.F[:, [0, 1]], m.F[:, [1, 2]], m.F[:, [2, 0]]], axis=1)
+            u, cnt = np.unique(E, axis=0, return_counts=True)
+            bad = u[cnt > 2]
+            if not len(bad):
+                break
+            L = np.linalg.norm(m.V[bad[:, 0]] - m.V[bad[:, 1]], axis=1)
+            bad = bad[L < max_len]
+            if not len(bad):
+                return self
+            remap = np.arange(len(m.V))
+            for a, b in bad:
+                remap[remap == remap[b]] = remap[a]
+            F = remap[m.F]
+            ok = (F[:, 0] != F[:, 1]) & (F[:, 1] != F[:, 2]) & (F[:, 0] != F[:, 2])
+            m = TriMesh(m.V, F[ok], m.part).welded()
+        r = m.edge_report()
+        return m if r['open_edges'] == 0 and r['nonmanifold_edges'] == 0 else self
+
     def transformed(self, M):
         V = self.V @ M[:3, :3].T + M[:3, 3]
         F = self.F if np.linalg.det(M[:3, :3]) > 0 else self.F[:, ::-1]

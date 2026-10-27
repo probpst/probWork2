@@ -245,7 +245,7 @@ class MainWindow(QMainWindow):
         self.preset.addItem('(custom)', '')
         for k, v in PRESETS.items():
             self.preset.addItem('%s — %s' % (k, v['label']), k)
-        self.preset.setMinimumWidth(520)
+        self.preset.setMinimumWidth(380)
         self.preset.activated.connect(self.apply_preset)
         tl.addWidget(self.preset)
         tl.addSpacing(16)
@@ -284,7 +284,7 @@ class MainWindow(QMainWindow):
         il.addStretch(1)
         scroll.setWidget(inner)
         ll.addWidget(scroll)
-        left.setMinimumWidth(400)
+        left.setMinimumWidth(340)
 
         # centre: 3-D view
         centre = QWidget()
@@ -339,7 +339,7 @@ class MainWindow(QMainWindow):
         split.addWidget(left)
         split.addWidget(centre)
         split.addWidget(self.tabs)
-        split.setSizes([420, 650, 560])
+        split.setSizes([380, 640, 560])
         root = QWidget()
         rl = QVBoxLayout(root)
         rl.setContentsMargins(0, 0, 0, 0)
@@ -455,8 +455,9 @@ class MainWindow(QMainWindow):
                 elif not name.endswith('_s'):          # starboard twin bodies mirror the port ones
                     self.p_body.plot(np.abs(P[:, 0]) * sg, P[:, 1], pen=pg.mkPen(col, width=1.0, style=Qt.DotLine))
         self.p_body.plot([-0.6 * h.B, 0.6 * h.B], [T, T], pen=pg.mkPen('#4a7fc1', style=Qt.DashLine))
-        self.p_body.setXRange(-0.62 * h.B, 0.62 * h.B, padding=0)
-        self.p_body.setYRange(zq[0] - 0.03 * h.D, h.D_fwd * 1.03, padding=0)
+        self.p_body.disableAutoRange()
+        self.p_body.getViewBox().setRange(xRange=(-0.62 * h.B, 0.62 * h.B),
+                                          yRange=(zq[0] - 0.03 * h.D, h.D_fwd * 1.03), padding=0)
         self.p_body.setTitle('Body plan (aft half left, forward half right; dotted: add-on bodies)' +
                              ('; grey = reference %s' % ref.name if ref is not None else ''))
         # profile and lines

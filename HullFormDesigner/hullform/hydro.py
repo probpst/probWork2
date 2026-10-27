@@ -162,7 +162,8 @@ def hydrostatics(meshes, T, L, B, nx=241, nz=160, x_range=None):
         nzo = 120
         dz = (T - zmin) / nzo
         Z = zmin + (np.arange(nzo) + 0.5) * dz
-        xo = np.linspace(lo, hi, 161)
+        dxo = (hi - lo) / 200
+        xo = lo + (np.arange(200) + 0.5) * dxo       # midpoint rule: robust at the body ends (steps)
         ov = np.zeros(len(xo))
         ovz = np.zeros(len(xo))
         for i, x in enumerate(xo):
@@ -175,9 +176,8 @@ def hydrostatics(meshes, T, L, B, nx=241, nz=160, x_range=None):
             d = np.maximum(Wsum - Wu, 0.0)
             ov[i] = d.sum() * dz
             ovz[i] = (d * Z).sum() * dz
-        vo = np.trapezoid(ov, xo)
-        vol -= vo
-        mom -= np.array([np.trapezoid(ov * xo, xo), 0.0, np.trapezoid(ovz, xo)])
+        vol -= ov.sum() * dxo
+        mom -= np.array([(ov * xo).sum() * dxo, 0.0, ovz.sum() * dxo])
     res = dict(T=T, volume=float(vol))
     if vol <= 0:
         return res
