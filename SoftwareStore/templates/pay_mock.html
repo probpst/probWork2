@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}결제 — {{ store_name }}{% endblock %}
+{% block content %}
+<div class="paywin">
+  <div class="paywin-head">
+    <div><div class="muted">주문번호 {{ order.id }}</div><strong>{{ order_name }}</strong></div>
+    <div class="price big">{{ order.amount|won }}</div>
+  </div>
+  <form method="post" action="{{ url_for('mock_pay', order_id=order.id) }}" class="paywin-body" autocomplete="off">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="methods">
+      <label class="method on"><input type="radio" name="m" checked> 신용·체크카드</label>
+    </div>
+    <label>카드 번호<input name="card" id="card" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="23" required></label>
+    <div class="row2">
+      <label>유효기간<input name="exp" id="exp" placeholder="MM/YY" maxlength="5" required></label>
+      <label>CVC<input name="cvc" inputmode="numeric" placeholder="123" maxlength="4" required></label>
+    </div>
+    <button class="btn wide">{{ order.amount|won }} 결제</button>
+    <p class="hint">테스트 카드: <code>4242 4242 4242 4242</code> (승인) · <code>4000 0000 0000 0002</code> (거절) · 유효기간·CVC 아무 값</p>
+    <a class="muted small" href="{{ url_for('pay_fail', orderId=order.id, code='USER_CANCEL', message='사용자가 결제를 취소했습니다.') }}">결제 취소</a>
+  </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const card = document.getElementById('card'), exp = document.getElementById('exp');
+  card.addEventListener('input', () => {
+    card.value = card.value.replace(/\D/g, '').slice(0, 19).replace(/(\d{4})(?=\d)/g, '$1 ');
+  });
+  exp.addEventListener('input', () => {
+    const d = exp.value.replace(/\D/g, '').slice(0, 4);
+    exp.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d;
+  });
+</script>
+{% endblock %}

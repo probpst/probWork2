@@ -1,0 +1,89 @@
+:root {
+  --bg: #f6f7f9; --surface: #fff; --text: #1b1f24; --muted: #667085; --line: #e4e7ec;
+  --brand: #2f5bea; --brand-ink: #fff; --ok: #12805c; --bad: #c4320a; --warn-bg: #fff4d6;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111418; --surface: #1a1e24; --text: #e8eaed; --muted: #98a2b3; --line: #2b313a;
+          --brand: #6d8dff; --brand-ink: #0b1020; --ok: #4cc38a; --bad: #ff7a59; --warn-bg: #3a2f10; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+       background: var(--bg); color: var(--text); }
+a { color: var(--brand); }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+main.wrap { padding-top: 24px; padding-bottom: 48px; min-height: 70vh; }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar-in { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.logo { font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; }
+nav a { margin-left: 18px; color: var(--text); text-decoration: none; }
+.pill { background: var(--brand); color: var(--brand-ink); border-radius: 99px; padding: 0 8px; font-size: 13px; }
+.testbar { background: var(--warn-bg); text-align: center; font-size: 14px; padding: 6px 16px; }
+.flash { background: var(--warn-bg); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; }
+.hero { padding: 24px 0 16px; }
+.hero h1 { margin: 0 0 6px; font-size: clamp(24px, 4vw, 34px); }
+.hero p { color: var(--muted); margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-top: 20px; }
+.card, .panel, .buybox, .paywin { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.card { padding: 20px; position: relative; display: flex; flex-direction: column; }
+.card h2 { font-size: 18px; margin: 0 0 8px; padding-right: 48px; }
+.card h2 a { color: var(--text); text-decoration: none; }
+.card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 12px; }
+.badge { position: absolute; top: 16px; right: 16px; background: var(--brand); color: var(--brand-ink); font-size: 12px; border-radius: 6px; padding: 2px 8px; }
+.muted { color: var(--muted); } .small { font-size: 13px; }
+.meta { color: var(--muted); font-size: 14px; }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.price.big { font-size: 26px; }
+.btn { display: inline-block; background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px; padding: 10px 18px;
+       font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.btn.wide { width: 100%; margin-top: 12px; padding: 14px; }
+.back { display: inline-block; margin-bottom: 12px; }
+.detail { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+.buybox { padding: 20px; position: sticky; top: 16px; }
+.features li { margin: 4px 0; }
+label { display: block; margin: 10px 0; font-size: 14px; color: var(--muted); }
+input[type=text], input[type=email], input[type=password], input[type=number], input:not([type]) {
+  display: block; width: 100%; margin-top: 4px; padding: 10px 12px; font: inherit; color: var(--text);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+input.qty { width: 80px; }
+label.check { display: flex; gap: 8px; align-items: flex-start; color: var(--text); }
+.table { width: 100%; border-collapse: collapse; background: var(--surface); }
+.table th, .table td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.table .r { text-align: right; }
+.table tfoot td { font-weight: 600; }
+.scroll { overflow-x: auto; }
+.actions { display: flex; gap: 12px; justify-content: flex-end; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+.actions.spread { justify-content: space-between; margin-top: 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.panel { padding: 20px 24px; margin-bottom: 18px; }
+.panel h2 { font-size: 18px; margin-top: 0; }
+.panel.center { text-align: center; }
+.panel.ok h1 { color: var(--ok); }
+.panel.narrow { max-width: 380px; margin: 40px auto; }
+.summary { list-style: none; padding: 0; margin: 0; }
+.summary li, .summary-total, .dl li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.summary-total { border: 0; font-weight: 600; }
+.dl { list-style: none; padding: 0; margin: 0; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; word-break: break-all; }
+code.key { font-size: 15px; letter-spacing: .5px; }
+.paywin { max-width: 480px; margin: 20px auto; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.paywin-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.paywin-body { padding: 20px 24px; }
+.methods { display: flex; gap: 8px; margin-bottom: 6px; }
+.method { border: 2px solid var(--brand); border-radius: 8px; padding: 8px 12px; color: var(--text); margin: 0; }
+.method input { display: none; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hint { font-size: 13px; color: var(--muted); }
+.st { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid currentColor; }
+.st-paid { color: var(--ok); } .st-failed { color: var(--bad); } .st-pending { color: var(--muted); }
+.prose { max-width: 760px; }
+.foot { border-top: 1px solid var(--line); padding: 20px 0; font-size: 14px; color: var(--muted); }
+.foot .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 760px) {
+  .detail, .two { grid-template-columns: 1fr; }
+  .buybox { position: static; }
+  .table th, .table td { padding: 8px 6px; font-size: 14px; }
+}

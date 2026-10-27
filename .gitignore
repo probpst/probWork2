@@ -10,3 +10,7 @@ out/
 dist/
 build/
 .venv-build/
+SoftwareStore/store.db
+SoftwareStore/.secret_key
+SoftwareStore/files/*
+!SoftwareStore/files/README.txt

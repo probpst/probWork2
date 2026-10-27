@@ -1,0 +1,38 @@
+[
+  {
+    "id": "hullform-standard",
+    "name": "Parametric Hull Form Designer — Standard",
+    "short": "상선 선형(벌브/소나돔, 스케그, 트윈스케그) 파라메트릭 설계, IGES/STL 출력",
+    "description": "KCS, DTC, KVLCC2, JBC, KLNG2, DTMB 5415 프리셋을 포함한 파라메트릭 선형 설계 프로그램입니다. 벌브·소나돔 유무, 단일/트윈 스케그, 오픈 샤프트, 트랜섬/클로즈드 선미를 지원하며 결과를 하나의 닫힌 솔리드로 IGES·STL 파일로 내보냅니다.",
+    "features": ["6개 벤치마크 선형 프리셋", "IGES / STL 출력", "정수역학 계산", "Windows 실행 파일(.exe) 제공", "1년 무료 업데이트"],
+    "version": "0.1.0",
+    "platform": "Windows 10/11 (64-bit)",
+    "price": 990000,
+    "file": "HullFormDesigner-0.1.0-Setup.exe",
+    "badge": "추천"
+  },
+  {
+    "id": "hullform-pro",
+    "name": "Parametric Hull Form Designer — Professional",
+    "short": "Standard 전 기능 + 상업적 이용 라이선스 + 우선 기술 지원",
+    "description": "Standard 판의 모든 기능에 더해 기업·상업 프로젝트 사용 권한, 이메일 우선 기술 지원, 3년 업데이트가 포함됩니다. 1개 라이선스당 PC 1대에 설치할 수 있습니다.",
+    "features": ["Standard 전 기능", "상업적 이용 허가", "우선 기술 지원(이메일)", "3년 무료 업데이트"],
+    "version": "0.1.0",
+    "platform": "Windows 10/11 (64-bit)",
+    "price": 2490000,
+    "file": "HullFormDesigner-0.1.0-Setup.exe",
+    "badge": ""
+  },
+  {
+    "id": "sample-utility",
+    "name": "예시 프로그램 — 유틸리티",
+    "short": "products.json 에서 이름·가격·설명을 바꿔 쓰는 예시 상품입니다",
+    "description": "판매할 프로그램을 추가하려면 products.json 에 항목을 추가하고, 배포 파일을 files/ 폴더에 넣은 다음 \"file\" 값에 파일 이름을 적으세요.",
+    "features": ["예시 기능 1", "예시 기능 2"],
+    "version": "1.0.0",
+    "platform": "Windows / macOS",
+    "price": 29000,
+    "file": "sample-utility-1.0.0.zip",
+    "badge": "예시"
+  }
+]

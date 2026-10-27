@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}관리자 — {{ store_name }}{% endblock %}
+{% block content %}
+<div class="actions spread">
+  <h1>주문 관리</h1>
+  <form method="post" action="{{ url_for('admin_logout') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="btn ghost">로그아웃</button></form>
+</div>
+<p>결제 완료 매출 합계: <strong class="price">{{ revenue|won }}</strong> (최근 500건 기준)</p>
+<div class="scroll">
+<table class="table">
+  <thead><tr><th>일시(UTC)</th><th>주문번호</th><th>구매자</th><th>상품</th><th class="r">금액</th><th>상태</th><th>결제</th></tr></thead>
+  <tbody>
+  {% for o in orders %}
+    <tr>
+      <td>{{ o.created_at[:16].replace('T', ' ') }}</td>
+      <td><a href="{{ url_for('order_view', order_id=o.id, t=o.access_token) }}">{{ o.id }}</a></td>
+      <td>{{ o.customer_name }}<br><span class="muted small">{{ o.email }}</span></td>
+      <td>{% for i in o['items'] %}{{ i.name }} × {{ i.qty }}<br>{% endfor %}</td>
+      <td class="r">{{ o.amount|won }}</td>
+      <td><span class="st st-{{ o.status|lower }}">{{ o.status }}</span></td>
+      <td class="small">{{ o.provider }}{% if o.method %}<br>{{ o.method }}{% endif %}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="7">주문이 없습니다.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

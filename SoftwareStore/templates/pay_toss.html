@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}결제 — {{ store_name }}{% endblock %}
+{% block head %}<script src="https://js.tosspayments.com/v2/standard"></script>{% endblock %}
+{% block content %}
+<div class="paywin">
+  <div class="paywin-head">
+    <div><div class="muted">주문번호 {{ order.id }}</div><strong>{{ order_name }}</strong></div>
+    <div class="price big">{{ order.amount|won }}</div>
+  </div>
+  <div class="paywin-body">
+    <div id="payment-method"></div>
+    <div id="agreement"></div>
+    <button class="btn wide" id="pay-btn" disabled>{{ order.amount|won }} 결제</button>
+    <p id="pay-err" class="flash" hidden></p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(async () => {
+  const btn = document.getElementById('pay-btn'), err = document.getElementById('pay-err');
+  const showErr = e => { err.hidden = false; err.textContent = e.message || String(e); };
+  try {
+    const toss = TossPayments({{ client_key|tojson }});
+    const widgets = toss.widgets({ customerKey: TossPayments.ANONYMOUS });
+    await widgets.setAmount({ currency: 'KRW', value: {{ order.amount|tojson }} });
+    await Promise.all([
+      widgets.renderPaymentMethods({ selector: '#payment-method', variantKey: 'DEFAULT' }),
+      widgets.renderAgreement({ selector: '#agreement', variantKey: 'AGREEMENT' }),
+    ]);
+    btn.disabled = false;
+    btn.addEventListener('click', async () => {
+      try {
+        await widgets.requestPayment({
+          orderId: {{ order.id|tojson }},
+          orderName: {{ order_name|tojson }},
+          customerName: {{ order.customer_name|tojson }},
+          customerEmail: {{ order.email|tojson }},
+          successUrl: {{ success_url|tojson }},
+          failUrl: {{ fail_url|tojson }},
+        });
+      } catch (e) { showErr(e); }
+    });
+  } catch (e) { showErr(e); }
+})();
+</script>
+{% endblock %}

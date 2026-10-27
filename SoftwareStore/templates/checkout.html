@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}주문서 — {{ store_name }}{% endblock %}
+{% block content %}
+<h1>주문서</h1>
+<div class="two">
+  <form method="post" class="panel">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <h2>구매자 정보</h2>
+    <label>이름<input name="name" value="{{ name }}" required maxlength="60"></label>
+    <label>이메일 (라이선스 수신)<input type="email" name="email" value="{{ email }}" required maxlength="120"></label>
+    <label class="check"><input type="checkbox" name="agree" value="1" required>
+      <span><a href="{{ url_for('terms') }}" target="_blank">이용약관 및 환불정책</a>에 동의합니다.</span></label>
+    <button class="btn wide">{{ total|won }} 결제하기</button>
+  </form>
+  <div class="panel">
+    <h2>주문 내역</h2>
+    <ul class="summary">
+      {% for l in lines %}<li><span>{{ l.name }} × {{ l.qty }}</span><span>{{ l.subtotal|won }}</span></li>{% endfor %}
+    </ul>
+    <div class="summary-total"><span>총 결제금액</span><span class="price">{{ total|won }}</span></div>
+  </div>
+</div>
+{% endblock %}

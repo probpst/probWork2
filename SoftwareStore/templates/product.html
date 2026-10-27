@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }} — {{ store_name }}{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('index') }}">← 목록</a>
+<div class="detail">
+  <div>
+    <h1>{{ p.name }}</h1>
+    <p class="meta">버전 {{ p.version }} · {{ p.platform }}</p>
+    <p>{{ p.description }}</p>
+    <ul class="features">{% for f in p.features %}<li>{{ f }}</li>{% endfor %}</ul>
+  </div>
+  <aside class="buybox">
+    <div class="price big">{{ p.price|won }}</div>
+    <p class="muted">라이선스 1개 = PC 1대 · VAT 포함</p>
+    <form method="post" action="{{ url_for('cart_add', pid=p.id) }}">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <label>수량 <input type="number" name="qty" value="1" min="1" max="99"></label>
+      <button class="btn wide">장바구니에 담기</button>
+    </form>
+  </aside>
+</div>
+{% endblock %}

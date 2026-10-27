@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}주문 {{ order.id }} — {{ store_name }}{% endblock %}
+{% block content %}
+{% if order.status == 'PAID' %}
+<div class="panel center ok">
+  <h1>결제가 완료되었습니다</h1>
+  <p>{{ order.customer_name }}님, 구매해 주셔서 감사합니다. 이 페이지 주소를 보관하시면 언제든 다시 다운로드할 수 있습니다.</p>
+</div>
+{% else %}
+<div class="panel center"><h1>결제 대기 / 실패 주문</h1><p>상태: {{ order.status }}</p></div>
+{% endif %}
+<div class="panel">
+  <h2>주문 정보</h2>
+  <dl class="kv">
+    <dt>주문번호</dt><dd>{{ order.id }}</dd>
+    <dt>이메일</dt><dd>{{ order.email }}</dd>
+    <dt>결제금액</dt><dd>{{ order.amount|won }}</dd>
+    {% if order.method %}<dt>결제수단</dt><dd>{{ order.method }}</dd>{% endif %}
+    {% if order.paid_at %}<dt>결제일시</dt><dd>{{ order.paid_at[:19].replace('T', ' ') }} (UTC)</dd>{% endif %}
+  </dl>
+</div>
+{% if licenses %}
+<div class="panel">
+  <h2>라이선스 키</h2>
+  <table class="table">
+    <thead><tr><th>프로그램</th><th>키</th></tr></thead>
+    <tbody>{% for l in licenses %}<tr><td>{{ l.product }}</td><td><code class="key">{{ l.key }}</code></td></tr>{% endfor %}</tbody>
+  </table>
+</div>
+<div class="panel">
+  <h2>다운로드</h2>
+  <ul class="dl">
+  {% for d in downloads %}
+    <li><span>{{ d.name }}</span>
+      {% if d.available %}<a class="btn" href="{{ url_for('download', order_id=order.id, pid=d.id, t=order.access_token) }}">다운로드</a>
+      {% else %}<span class="muted">파일 준비 중 — 이메일로 안내드립니다</span>{% endif %}</li>
+  {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endblock %}

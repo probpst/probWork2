@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>엔지니어를 위한 설계 프로그램</h1>
+  <p>필요한 프로그램을 골라 바로 구매하고, 결제 즉시 라이선스 키와 다운로드 링크를 받으세요.</p>
+</section>
+<section class="grid">
+  {% for p in products %}
+  <article class="card">
+    {% if p.badge %}<span class="badge">{{ p.badge }}</span>{% endif %}
+    <h2><a href="{{ url_for('product', pid=p.id) }}">{{ p.name }}</a></h2>
+    <p class="muted">{{ p.short }}</p>
+    <p class="meta">v{{ p.version }} · {{ p.platform }}</p>
+    <div class="card-foot">
+      <span class="price">{{ p.price|won }}</span>
+      <form method="post" action="{{ url_for('cart_add', pid=p.id) }}">
+        <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+        <button class="btn">담기</button>
+      </form>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

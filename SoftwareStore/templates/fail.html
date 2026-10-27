@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}결제 실패 — {{ store_name }}{% endblock %}
+{% block content %}
+<div class="panel center">
+  <h1>결제가 완료되지 않았습니다</h1>
+  <p>{{ message }}</p>
+  {% if code %}<p class="muted small">코드: {{ code }}</p>{% endif %}
+  <a class="btn" href="{{ url_for('cart_view') }}">장바구니로 돌아가기</a>
+</div>
+{% endblock %}
