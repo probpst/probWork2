@@ -120,3 +120,16 @@ def test_admin(client):
     token = csrf(client)
     client.post("/admin/login", data={"csrf": token, "password": "pw"})
     assert "홍길동" in client.get("/admin").get_data(as_text=True)
+
+
+def test_env_file_with_notepad_bom(tmp_path, monkeypatch):
+    env = tmp_path / "store.env"
+    env.write_bytes("﻿# comment\nSTORE_NAME=\"내 상점\"\nPORT=8080\nADMIN_PASSWORD=\n".encode("utf-8"))
+    for k in ("STORE_NAME", "PORT", "ADMIN_PASSWORD"):
+        monkeypatch.delenv(k, raising=False)
+    monkeypatch.setenv("PORT", "9000")  # 이미 설정된 환경변수가 우선
+    store.load_env_file(env)
+    import os
+    assert os.environ["STORE_NAME"] == "내 상점"
+    assert os.environ["PORT"] == "9000"
+    assert os.environ["ADMIN_PASSWORD"] == ""

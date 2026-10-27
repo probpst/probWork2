@@ -27,12 +27,32 @@ TOSS_CONFIRM_URL = "https://api.tosspayments.com/v1/payments/confirm"
 MOCK_DECLINE_CARD = "4000000000000002"
 
 
+def load_env_file(path=BASE_DIR / "store.env"):
+    """store.env 의 KEY=VALUE 줄을 환경변수로 읽는다 (이미 설정된 값이 우선).
+
+    Windows 에서 환경변수를 직접 설정하지 않고 메모장으로 설정을 바꿀 수 있게 하기 위함.
+    메모장이 붙이는 BOM 을 고려해 utf-8-sig 로 읽는다.
+    """
+    path = Path(path)
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        os.environ.setdefault(key.strip(), value)
+
+
 def persistent_secret():
     """SECRET_KEY 가 없으면 한 번 만들어 파일에 저장한다 (재시작해도 세션·라이선스 키 유지)."""
     path = BASE_DIR / ".secret_key"
     if not path.exists():
-        path.write_text(secrets.token_hex(32))
-    return path.read_text().strip()
+        path.write_text(secrets.token_hex(32), encoding="ascii")
+    return path.read_text(encoding="ascii").strip()
 
 
 def create_app(config=None):
@@ -453,8 +473,9 @@ def register_routes(app):
         return render_template("terms.html")
 
 
-app = create_app() if __name__ == "__main__" else None
-
 if __name__ == "__main__":
+    # 개발용 서버. 실제 운영(Windows 포함)은 serve.py (waitress) 를 사용한다.
+    load_env_file()
+    app = create_app()
     app.run(host=os.environ.get("HOST", "127.0.0.1"), port=int(os.environ.get("PORT", 5000)),
             debug=os.environ.get("FLASK_DEBUG") == "1")
