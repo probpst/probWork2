@@ -1,0 +1,9 @@
+numpy>=1.24
+scipy>=1.10
+PySide6>=6.5
+pyqtgraph>=0.13.7
+PyOpenGL>=3.1
+# CAD kernel (exact B-spline solid, union, IGES, exact hydrostatics). Without it: preview + STL only.
+cadquery-ocp>=7.8.1,<7.10
+# optional: comparison plots (tools/fit_presets.py)
+matplotlib
