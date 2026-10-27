@@ -7,3 +7,6 @@ out/
 *.iges
 *.stl
 !HullFormDesigner/examples/*
+dist/
+build/
+.venv-build/

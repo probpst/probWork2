@@ -25,6 +25,25 @@ python -m pytest -q tests              # tests
 On Linux, Qt needs `libegl1 libxcb-cursor0`. Without `cadquery-ocp` the program still runs: preview,
 hydrostatics and STL from the preview mesh (bodies not united, no IGES).
 
+## Build the Windows program (.exe)
+
+On a Windows 10/11 PC with 64-bit **Python 3.10–3.13** from python.org installed:
+
+1. Copy (or `git clone`) the `HullFormDesigner` folder to the PC.
+2. Double-click **`build_exe.bat`**. It creates a build environment, installs the requirements and
+   PyInstaller, runs the tests and builds the program (10–20 min the first time).
+3. Result:
+   * `dist\HullFormDesigner\HullFormDesigner.exe` — the program; the whole `dist\HullFormDesigner`
+     folder is needed (≈0.9 GB unpacked, mainly the OpenCASCADE CAD kernel).
+   * `dist\HullFormDesigner-portable.zip` — the same folder zipped, to copy to other PCs (no Python needed).
+4. Optional installer: install [Inno Setup](https://jrsoftware.org/isinfo.php), open
+   `packaging\installer.iss`, press *Compile* → `dist\HullFormDesigner-0.1.0-Setup.exe`
+   (per-user, no admin rights, Start-menu shortcut, uninstaller).
+
+The exe also runs the command line: `HullFormDesigner.exe build --preset KCS --out C:\out`.
+The PyInstaller recipe is `packaging/HullFormDesigner.spec` (one-folder build; a one-file exe is
+possible but starts slowly because it unpacks ~0.9 GB on every start).
+
 ## What you control
 
 About 90 parameters in 16 groups (full list: `docs/Parameters.md`):
